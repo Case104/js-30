@@ -104,34 +104,55 @@
   </div>
 
 <script>
-const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
+// find the checked box
+// make all the siblings checked until you get to second clicked box
 
-let lastChecked;
+function shiftCheck(e){
+  if (!e.shiftKey) {
+    lastClickIdx = items.indexOf(event.target.parentElement);
+    return
+  };
 
-function handleCheck(e) {
-  // Check if they had the shift key down
-  // AND check that they are checking it
-  let inBetween = false;
-  if (e.shiftKey && this.checked) {
-    // go ahead and do what we please
-    // loop over every single checkbox
-    checkboxes.forEach(checkbox => {
-      console.log(checkbox);
-      if (checkbox === this || checkbox === lastChecked) {
-        inBetween = !inBetween;
-        console.log('STarting to check them inbetween!');
-      }
+  let currentIdx = items.indexOf(event.target.parentElement);
 
-      if (inBetween) {
-        checkbox.checked = true;
-      }
-    });
+  if (lastClickIdx > currentIdx){
+    [lastClickIdx, currentIdx] = [currentIdx, lastClickIdx]
   }
 
-  lastChecked = this;
+  for (var i = lastClickIdx; i < currentIdx; i++){
+    items[i].firstChild.nextSibling.checked = true;
+  }
 }
 
-checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck));
+const items = Array.from(document.querySelectorAll('.item'))
+let lastClickIdx = 0;
+
+items.forEach(item => addEventListener('click', shiftCheck));
+
+////ALTERNATE HTML AGNOSTIC APPROACH
+// const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
+
+// let lastChecked;
+
+// function handleCheck(e) {
+//   let inBetween = false;
+//     checkboxes.forEach(checkbox => {
+//       console.log(checkbox);
+//       if (checkbox === this || checkbox === lastChecked) {
+//         inBetween = !inBetween;
+//       }
+
+//       if (inBetween) {
+//         checkbox.checked = true;
+//       }
+//     });
+//   }
+
+//   lastChecked = this;
+// }
+
+// checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck));
+
 </script>
 </body>
 </html>
