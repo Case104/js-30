@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Key Detection</title>
+</head>
+<body>
+	<div id='konami'>
+
+	</div>
+<script>
+
+const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+const input = [];
+
+function handleKeypress(e){
+	input.push(e.key)
+	input.splice(-konamiCode.length - 1, input.length - konamiCode.length);
+	if (input.join() === konamiCode.join()){
+		document.getElementById('konami').innerText = 'KONAMI'
+	}
+}
+
+window.addEventListener('keyup', handleKeypress);
+</script>
+</body>
+</html>
